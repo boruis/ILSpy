@@ -197,6 +197,16 @@ namespace ICSharpCode.Decompiler.CSharp.ProjectDecompiler
 						return file;
 					} else {
 						string dir = CleanUpFileName(metadata.GetString(type.Namespace));
+
+						//fix dir
+						string[] parts = dir.Split('.');
+						string tempName = string.Empty;
+						for (int i = 0; i < parts.Length; i++) {
+							var part = parts[i];
+							tempName = Path.Combine(tempName, part);
+						}
+						dir = tempName;
+
 						if (directories.Add(dir))
 							Directory.CreateDirectory(Path.Combine(targetDirectory, dir));
 						return Path.Combine(dir, file);
